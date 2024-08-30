@@ -1,23 +1,39 @@
 {
   "classrooms": [
-    { "id": 1, "name": "2A-1 (201~)" },
-    { "id": 2, "name": "3B-1 (301~)" },
-    { "id": 3, "name": "2A-2 (401~)" }
-  ],
-  "sessions": [
     {
       "id": 1,
-      "classroomId": 1,
-      "timeOfDay": "morning",
-      "startTime": "08:00",
-      "endTime": "09:00"
+      "name": "2A-1 (201~)",
+      "sessions": [
+        {
+          "sessionId": 1,
+          "timeOfDay": "morning",
+          "startTime": "08:00",
+          "endTime": "09:00"
+        },
+        {
+          "sessionId": 2,
+          "timeOfDay": "afternoon",
+          "startTime": "13:00",
+          "endTime": "14:00"
+        }
+      ]
     },
     {
       "id": 2,
-      "classroomId": 1,
-      "timeOfDay": "afternoon",
-      "startTime": "13:00",
-      "endTime": "14:00"
+      "name": "3B-1 (301~)",
+      "sessions": [
+        {
+          "sessionId": 1,
+          "timeOfDay": "morning",
+          "startTime": "09:00",
+          "endTime": "10:00"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "name": "2A-2 (401~)",
+      "sessions": []
     }
   ]
 }

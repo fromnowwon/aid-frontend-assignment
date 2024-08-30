@@ -4,12 +4,12 @@ import { Classroom } from "@/types/ClassroomTypes";
 
 type ClassroomState = {
   classrooms: Classroom[];
-  loadClassrooms: () => Promise<void>;
+  fetchClassrooms: () => Promise<void>;
 };
 
 export const useClassroomStore = create<ClassroomState>((set) => ({
   classrooms: [],
-  loadClassrooms: async () => {
+  fetchClassrooms: async () => {
     try {
       const data = await fetchClassrooms();
       set({ classrooms: data });

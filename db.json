@@ -12,6 +12,12 @@
         },
         {
           "sessionId": 2,
+          "timeOfDay": "morning",
+          "startTime": "13:00",
+          "endTime": "14:00"
+        },
+        {
+          "sessionId": 3,
           "timeOfDay": "afternoon",
           "startTime": "13:00",
           "endTime": "14:00"

@@ -23,7 +23,6 @@ export default function TableTabs() {
   }, [fetchClassrooms]);
 
   useEffect(() => {
-    console.log(classrooms);
     if (classrooms.length > 0) {
       // 초기 활성화 탭 설정
       setActiveTab(classrooms[0].id);

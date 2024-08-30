@@ -13,10 +13,16 @@ await db.read();
 app.use(cors());
 db.data ||= { classrooms: [] };
 
-// 모든 데이터 조회
+// 모든 시간표 데이터 조회
 app.get("/classrooms", async (req, res) => {
   await db.read();
   res.json(db.data.classrooms);
+});
+
+// 식사 시간 데이터 조회
+app.get("/meal-times", async (req, res) => {
+  await db.read();
+  res.json(db.data.mealTimes);
 });
 
 // 포트 설정

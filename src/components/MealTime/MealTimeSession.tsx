@@ -1,21 +1,19 @@
 import { MealTime } from "@/types/MealTimeTypes";
 
 interface MealTimeSessionProps {
-  mealTime: string;
-  lunchTime: MealTime;
-  dinnerTime: MealTime;
+  mealTime: MealTime;
+  mealType: string;
 }
 
 export default function MealTimeSession({
   mealTime,
-  lunchTime,
-  dinnerTime,
+  mealType,
 }: MealTimeSessionProps) {
   return (
     <div>
-      <h4>{mealTime}</h4>
+      <h4>{mealType}</h4>
       <div>
-        {lunchTime.startTime} - {dinnerTime.endTime}
+        {mealTime.startTime} - {mealTime.endTime}
       </div>
     </div>
   );

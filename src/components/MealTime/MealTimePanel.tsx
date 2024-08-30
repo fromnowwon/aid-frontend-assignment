@@ -1,20 +1,32 @@
 import { useMealTimeStore } from "@/hooks/useMealTimeStore";
 import MealTimeSession from "./MealTimeSession";
-
-const mealTimes = ["점심", "저녁"];
+import { useEffect } from "react";
 
 export default function MealTimePanel() {
-  const lunchTime = useMealTimeStore((state) => state.lunchTime);
-  const dinnerTime = useMealTimeStore((state) => state.dinnerTime);
+  const { mealTimes, fetchMealTimes } = useMealTimeStore((state) => ({
+    mealTimes: [
+      { mealType: "lunch", time: state.mealTimes.lunchTime },
+      { mealType: "dinner", time: state.mealTimes.dinnerTime },
+    ],
+    fetchMealTimes: state.fetchMealTimes,
+  }));
+
+  useEffect(() => {
+    // 초기 데이터 로드
+    const loadData = async () => {
+      await fetchMealTimes();
+    };
+
+    loadData();
+  }, [fetchMealTimes]);
 
   return (
     <div className="flex space-x-3">
-      {mealTimes.map((mealTime) => (
+      {mealTimes.map((meal) => (
         <MealTimeSession
-          key={mealTime}
-          mealTime={mealTime}
-          lunchTime={lunchTime}
-          dinnerTime={dinnerTime}
+          key={meal.mealType}
+          mealType={meal.mealType}
+          mealTime={meal.time}
         />
       ))}
     </div>

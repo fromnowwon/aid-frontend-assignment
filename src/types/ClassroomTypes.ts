@@ -1,10 +1,11 @@
 export interface Classroom {
   id: number;
   name: string;
+  sessions: Session[];
 }
 
 export interface Session {
-  id: number;
+  sessionId: number;
   classroomId: number;
   timeOfDay: "morning" | "afternoon" | "evening";
   startTime: string;

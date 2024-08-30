@@ -10,22 +10,7 @@ export const fetchClassrooms = async () => {
     const data = await response.json();
     return data;
   } catch (error) {
-    console.error(error);
-    throw error;
-  }
-};
-
-// 각 교실 수업 정보 가져오기
-export const fetchSessions = async () => {
-  try {
-    const response = await fetch(`${API_BASE_URL}/sessions`);
-    if (!response.ok) {
-      throw new Error("수업 정보 가져오기 실패");
-    }
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    console.error(error);
+    console.error("API 요청 오류:", error);
     throw error;
   }
 };

@@ -1,7 +1,9 @@
 import { Session } from "@/types/ClassroomTypes";
+import { Trash2 } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 interface ScheduleSessionProps {
-  timeOfDay: "morning" | "afternoon" | "evening";
+  timeOfDay: string;
   sessions: Session[];
 }
 
@@ -12,17 +14,24 @@ export default function ScheduleSession({
   return (
     <div>
       <h3>{timeOfDay}</h3>
-      <ul>
+      <div>
         {sessions.length > 0 ? (
           sessions.map((session) => (
-            <li key={session.id}>
-              {session.startTime} - {session.endTime}
-            </li>
+            <div key={session.sessionId} className="flex space-x-2">
+              <h4>{session.sessionId}교시</h4>
+              <div>
+                {session.startTime} - {session.endTime}
+              </div>
+              <Button variant="outline">
+                <Trash2 />
+              </Button>
+            </div>
           ))
         ) : (
-          <li>수업 없음</li>
+          <p>수업 없음</p>
         )}
-      </ul>
+      </div>
+      <Button>+ {timeOfDay} 교시 추가</Button>
     </div>
   );
 }

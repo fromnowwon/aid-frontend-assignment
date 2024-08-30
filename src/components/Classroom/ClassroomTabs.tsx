@@ -4,7 +4,7 @@ import ClassroomTab from "./ClassroomTab";
 import SchedulePanel from "./SchedulePanel";
 
 export default function ClassroomTabs() {
-  const { classrooms, loadClassrooms, loadSessions } = useClassroomStore();
+  const { classrooms, loadClassrooms } = useClassroomStore();
   const [activeTab, setActiveTab] = useState<number | null>(
     classrooms.length > 0 ? classrooms[0].id : null
   );
@@ -17,11 +17,10 @@ export default function ClassroomTabs() {
     // 초기 데이터 로드
     const loadData = async () => {
       await loadClassrooms();
-      await loadSessions();
     };
 
     loadData();
-  }, [loadClassrooms, loadSessions]);
+  }, [loadClassrooms]);
 
   useEffect(() => {
     if (classrooms.length > 0) {

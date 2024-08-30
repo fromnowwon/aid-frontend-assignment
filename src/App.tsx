@@ -3,7 +3,7 @@ import "react-clock/dist/Clock.css";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import HomePage from "./pages/Home";
 import TimetablePage from "./pages/Timetable";
-import NavBar from "./components/ui/NavBar";
+import NavBar from "./components/layout/NavBar";
 
 function App() {
   return (

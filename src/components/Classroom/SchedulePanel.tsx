@@ -5,27 +5,27 @@ interface SchedulePanelProps {
   activeTab: number;
 }
 
-export default function SchedulePanel({ activeTab }: SchedulePanelProps) {
-  const sessions = useClassroomStore((state) => state.sessions);
-  const filteredSessions = sessions.filter(
-    (session) => session.classroomId === activeTab
-  );
+const timeOfDays = ["morning", "afternoon", "evening"];
 
-  const morningSessions = filteredSessions.filter(
-    (session) => session.timeOfDay === "morning"
-  );
-  const afternoonSessions = filteredSessions.filter(
-    (session) => session.timeOfDay === "afternoon"
-  );
-  const eveningSessions = filteredSessions.filter(
-    (session) => session.timeOfDay === "evening"
-  );
+export default function SchedulePanel({ activeTab }: SchedulePanelProps) {
+  const classrooms = useClassroomStore((state) => state.classrooms);
+  const classroom = classrooms.find((classroom) => classroom.id === activeTab);
 
   return (
-    <div>
-      <ScheduleSession timeOfDay="morning" sessions={morningSessions} />
-      <ScheduleSession timeOfDay="afternoon" sessions={afternoonSessions} />
-      <ScheduleSession timeOfDay="evening" sessions={eveningSessions} />
+    <div className="flex space-x-3">
+      {timeOfDays.map((timeOfDay) => {
+        const sessions = classroom?.sessions.filter(
+          (session) => session.timeOfDay === timeOfDay
+        );
+
+        return (
+          <ScheduleSession
+            key={timeOfDay}
+            timeOfDay={timeOfDay}
+            sessions={sessions || []}
+          />
+        );
+      })}
     </div>
   );
 }

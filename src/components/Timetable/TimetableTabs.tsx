@@ -1,9 +1,9 @@
 import { useClassroomStore } from "@/hooks/useClassroomStore";
 import { useEffect, useState } from "react";
-import TablePanel from "./TablePanel";
-import TableTab from "./TableTab";
+import TimetablePanel from "./TimetablePanel";
+import TimetableTab from "./TimetableTab";
 
-export default function TableTabs() {
+export default function TimetableTabs() {
   const { classrooms, fetchClassrooms } = useClassroomStore();
   const [activeTab, setActiveTab] = useState<number | null>(
     classrooms.length > 0 ? classrooms[0].id : null
@@ -33,7 +33,7 @@ export default function TableTabs() {
     <div>
       <div className="flex">
         {classrooms.map((classroom) => (
-          <TableTab
+          <TimetableTab
             key={classroom.id}
             name={classroom.name}
             isActive={classroom.id === activeTab}
@@ -42,7 +42,7 @@ export default function TableTabs() {
         ))}
       </div>
       <div className="mt-4">
-        {activeTab && <TablePanel activeTab={activeTab} />}
+        {activeTab && <TimetablePanel activeTab={activeTab} />}
       </div>
     </div>
   );

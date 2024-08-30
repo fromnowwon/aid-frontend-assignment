@@ -1,10 +1,14 @@
-interface TableTabProps {
+interface TimetableTabProps {
   name: string;
   isActive: boolean;
   onClick: () => void;
 }
 
-export default function TableTab({ name, isActive, onClick }: TableTabProps) {
+export default function TimetableTab({
+  name,
+  isActive,
+  onClick,
+}: TimetableTabProps) {
   return (
     <button
       onClick={onClick}

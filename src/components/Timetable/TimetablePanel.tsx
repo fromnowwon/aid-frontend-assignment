@@ -1,17 +1,17 @@
 import { useClassroomStore } from "@/hooks/useClassroomStore";
-import TableSession from "./TableSession";
+import TimetableSession from "./TimetableSession";
 
-interface TablePanelProps {
+interface TimetablePanelProps {
   activeTab: number;
 }
 
-export default function TablePanel({ activeTab }: TablePanelProps) {
+export default function TimetablePanel({ activeTab }: TimetablePanelProps) {
   const classrooms = useClassroomStore((state) => state.classrooms);
   const classroom = classrooms.find((classroom) => classroom.id === activeTab);
 
   return (
     <div className="rounded-md border">
-      <TableSession sessions={classroom?.sessions || []} />
+      <TimetableSession sessions={classroom?.sessions || []} />
     </div>
   );
 }

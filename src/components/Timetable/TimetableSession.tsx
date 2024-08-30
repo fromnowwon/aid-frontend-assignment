@@ -8,11 +8,11 @@ import {
 } from "@/components/ui/table";
 import { Session } from "@/types/ClassroomTypes";
 
-interface TableSessionProps {
+interface TimetableSessionProps {
   sessions: Session[];
 }
 
-export default function TableSession({ sessions }: TableSessionProps) {
+export default function TimetableSession({ sessions }: TimetableSessionProps) {
   // 시간대 기준 그룹 생성
   const groupedSessions = sessions.reduce(
     (acc: Record<string, Session[]>, session) => {

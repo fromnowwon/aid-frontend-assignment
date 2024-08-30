@@ -35,5 +35,9 @@
       "name": "2A-2 (401~)",
       "sessions": []
     }
-  ]
+  ],
+  "mealTimes": {
+    "lunchTime": { "startTime": "12:00", "endTime": "13:00" },
+    "dinnerTime": { "startTime": "18:00", "endTime": "19:00" }
+  }
 }

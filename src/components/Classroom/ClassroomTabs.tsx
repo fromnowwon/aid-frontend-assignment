@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useClassroomStore } from "@/hooks/useClassroomStore";
 import ClassroomTab from "./ClassroomTab";
 import SchedulePanel from "./SchedulePanel";
-import BatchSwitch from "./BatchSwitch";
+import BatchButton from "./BatchButton";
 
 export default function ClassroomTabs() {
   const { classrooms, getClassrooms, setActiveClassroomId } =
@@ -44,7 +44,7 @@ export default function ClassroomTabs() {
             onClick={() => handleTabClick(classroom.id)}
           />
         ))}
-        <BatchSwitch />
+        <BatchButton />
       </div>
       <div className="mt-4">
         {activeTab && <SchedulePanel activeTab={activeTab} />}

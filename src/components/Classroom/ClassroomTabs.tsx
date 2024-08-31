@@ -35,18 +35,21 @@ export default function ClassroomTabs() {
 
   return (
     <div>
-      <div className="flex">
-        {classrooms.map((classroom) => (
-          <ClassroomTab
-            key={classroom.id}
-            name={classroom.name}
-            isActive={classroom.id === activeTab}
-            onClick={() => handleTabClick(classroom.id)}
-          />
-        ))}
+      <div className="flex justify-between items-center border-b border-b-slate-200">
+        <div className="flex space-x-2">
+          {classrooms.map((classroom) => (
+            <ClassroomTab
+              key={classroom.id}
+              name={classroom.name}
+              isActive={classroom.id === activeTab}
+              onClick={() => handleTabClick(classroom.id)}
+            />
+          ))}
+        </div>
         <BatchButton />
       </div>
-      <div className="mt-4">
+
+      <div className="mt-2">
         {activeTab && <SchedulePanel activeTab={activeTab} />}
       </div>
     </div>

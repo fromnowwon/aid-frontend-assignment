@@ -10,8 +10,8 @@ export default function MealTimeSession({
   mealType,
 }: MealTimeSessionProps) {
   return (
-    <div>
-      <h4>{mealType}</h4>
+    <div className="flex items-center space-x-2">
+      <h4 className="text-sm">{mealType === "lunch" ? "점심" : "저녁"}</h4>
       <div>
         {mealTime.startTime} - {mealTime.endTime}
       </div>

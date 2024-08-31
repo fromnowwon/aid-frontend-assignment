@@ -8,7 +8,7 @@ function App() {
   return (
     <Router>
       <Header />
-      <main>
+      <main className="h-screen w-full max-w-[1024px] m-auto">
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/timetable" element={<TimetablePage />} />

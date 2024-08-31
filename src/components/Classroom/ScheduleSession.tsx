@@ -12,11 +12,15 @@ interface ScheduleSessionProps {
   sessions: Session[];
 }
 
+const MAX_SESSIONS = 5;
+
 export default function ScheduleSession({
   classroomId,
   timeOfDay,
   sessions,
 }: ScheduleSessionProps) {
+  const timeTitle =
+    timeOfDay === "morning" ? "오전" : timeOfDay === "lunch" ? "오후" : "저녁";
   const [isAddSessionModalOpen, setAddSessionModalOpen] = useState(false);
   const [isDeleteSessionModalOpen, setDeleteSessionModalOpen] = useState(false);
 
@@ -48,32 +52,63 @@ export default function ScheduleSession({
     }
   };
 
+  const paddedSessions = [
+    ...sessions,
+    ...Array(MAX_SESSIONS - sessions.length).fill(null),
+  ];
+
   return (
-    <div>
-      <h3>{timeOfDay}</h3>
-      <div>
-        {sessions.length > 0 ? (
-          sessions.map((session) => (
-            <div key={session.sessionId} className="flex space-x-2">
-              <h4>{session.sessionId}교시</h4>
-              <div>
-                {session.startTime} - {session.endTime}
-              </div>
-              <Button
-                variant="outline"
-                onClick={() => openDeleteSessionModal(session.sessionId)}
-              >
-                <Trash2 />
-              </Button>
+    <div className="border border-slate-200">
+      <h3 className="w-full text-center text-sm p-2 bg-slate-200">
+        {timeTitle}
+      </h3>
+
+      <div className="flex flex-col space-y-4 pb-4">
+        <div
+          className="px-3 pt-3 grid"
+          style={{ gridTemplateRows: `repeat(${MAX_SESSIONS}, 1fr)` }}
+        >
+          {paddedSessions.map((session, index) => (
+            <div
+              key={index}
+              className={`flex items-center p-2 border-b ${
+                session ? "" : "opacity-50"
+              }`}
+              style={{ minWidth: "200px", height: "50px" }}
+            >
+              {session ? (
+                <div className="flex items-center w-full justify-between">
+                  <div className="flex items-center space-x-2">
+                    <h4 className="text-sm">{session.sessionId}교시</h4>
+                    <div className="text-sm">
+                      {session.startTime} - {session.endTime}
+                    </div>
+                  </div>
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    onClick={() => openDeleteSessionModal(session.sessionId)}
+                    className=""
+                  >
+                    <Trash2 className="w-4 h-4" />
+                  </Button>
+                </div>
+              ) : (
+                <p className="text-sm"></p>
+              )}
             </div>
-          ))
-        ) : (
-          <p>수업 없음</p>
-        )}
+          ))}
+        </div>
+        <div className="px-3">
+          <Button
+            onClick={openAddSessionModal}
+            disabled={sessions.length >= MAX_SESSIONS}
+            className="w-full"
+          >
+            + {timeTitle} 교시 추가
+          </Button>
+        </div>
       </div>
-      <Button onClick={openAddSessionModal} disabled={sessions.length >= 5}>
-        + {timeOfDay} 교시 추가
-      </Button>
 
       <AddSessionModal
         isOpen={isAddSessionModalOpen}

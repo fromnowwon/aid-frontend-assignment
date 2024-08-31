@@ -42,11 +42,15 @@ export default function BatchButton() {
   return (
     <div className="flex space-x-3">
       {isLoading ? (
-        <Button disabled>
+        <Button disabled className="min-w-[181px]">
           <Loader2 className="mr-2 h-4 w-4 animate-spin" />
         </Button>
       ) : (
-        <Button onClick={handleButtonClick} variant="outline">
+        <Button
+          onClick={handleButtonClick}
+          variant="outline"
+          className="text-sm min-w-[181px]"
+        >
           모든 교실 동일 시간표 적용
         </Button>
       )}

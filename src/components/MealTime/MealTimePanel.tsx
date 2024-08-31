@@ -21,7 +21,7 @@ export default function MealTimePanel() {
   }, [fetchMealTimes]);
 
   return (
-    <div className="flex space-x-3">
+    <div className="flex space-x-3 mt-5">
       {mealTimes.map((meal) => (
         <MealTimeSession
           key={meal.mealType}

@@ -2,9 +2,10 @@ import TimetableTabs from "@/components/Timetable/TimetableTabs";
 
 export default function HomePage() {
   return (
-    <div>
-      <h2>시간표</h2>
-      <TimetableTabs />
-    </div>
+    <section className="flex justify-center w-full py-10">
+      <div className="max-w-4xl p-4 border border-slate-200">
+        <TimetableTabs />
+      </div>
+    </section>
   );
 }

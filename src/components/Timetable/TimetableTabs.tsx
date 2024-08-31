@@ -31,7 +31,7 @@ export default function TimetableTabs() {
 
   return (
     <div>
-      <div className="flex">
+      <div className="flex items-center border-b border-b-slate-200">
         {classrooms.map((classroom) => (
           <TimetableTab
             key={classroom.id}
@@ -41,7 +41,7 @@ export default function TimetableTabs() {
           />
         ))}
       </div>
-      <div className="mt-4">
+      <div className="mt-2">
         {activeTab && <TimetablePanel activeTab={activeTab} />}
       </div>
     </div>

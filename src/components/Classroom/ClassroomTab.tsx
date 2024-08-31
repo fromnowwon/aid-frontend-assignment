@@ -12,7 +12,9 @@ export default function ClassroomTab({
   return (
     <button
       onClick={onClick}
-      className={`${isActive ? "font-semibold" : "text-gray-600"}`}
+      className={`p-3 font-semibold ${
+        isActive ? " text-main" : "text-gray-600"
+      }`}
     >
       {name}
     </button>

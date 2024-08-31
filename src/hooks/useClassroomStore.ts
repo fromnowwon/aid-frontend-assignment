@@ -21,7 +21,18 @@ export const useClassroomStore = create<ClassroomState>((set) => ({
   removeSession: async (classroomId: number, sessionId: number) => {
     try {
       await removeSession(classroomId, sessionId);
-      await fetchClassrooms();
+      set((state) => ({
+        classrooms: state.classrooms.map((classroom) =>
+          classroom.id === classroomId
+            ? {
+                ...classroom,
+                sessions: classroom.sessions.filter(
+                  (session) => session.sessionId !== sessionId
+                ),
+              }
+            : classroom
+        ),
+      }));
     } catch (error) {
       console.error("API 요청 오류:", error);
     }

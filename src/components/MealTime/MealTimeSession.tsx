@@ -3,7 +3,7 @@ import { Pen } from "lucide-react";
 import { MealTime } from "@/types/MealTimeTypes";
 import { Button } from "@/components/ui/button";
 import EditMealTimeModal from "@/components/Modals/EditMealTimeModal";
-import { useClassroomStore } from "@/hooks/useClassroomStore";
+import { useClassroomStore } from "@/store/useClassroomStore";
 
 interface MealTimeSessionProps {
   mealTime: MealTime;

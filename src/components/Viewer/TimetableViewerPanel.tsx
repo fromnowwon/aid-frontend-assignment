@@ -1,4 +1,4 @@
-import { useClassroomStore } from "@/hooks/useClassroomStore";
+import { useClassroomStore } from "@/store/useClassroomStore";
 import TimetableViewerSession from "./TimetableViewerSession";
 
 interface TimetableViewerSessionProps {

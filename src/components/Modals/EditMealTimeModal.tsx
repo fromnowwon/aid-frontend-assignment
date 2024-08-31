@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import DatePicker from "react-datepicker";
 import Modal from "@/components/layout/Modal";
-import { useMealTimeStore } from "@/hooks/useMealTimeStore";
-import { useClassroomStore } from "@/hooks/useClassroomStore";
+import { useMealTimeStore } from "@/store/useMealTimeStore";
+import { useClassroomStore } from "@/store/useClassroomStore";
 import { Session } from "@/types/ClassroomTypes";
 import { validateTimes } from "@/lib/utils";
 

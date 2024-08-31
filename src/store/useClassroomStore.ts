@@ -5,7 +5,7 @@ import {
   fetchClassrooms,
   removeSession,
   updateSession,
-} from "@/services/api";
+} from "@/lib/api";
 import { Classroom, Session } from "@/types/ClassroomTypes";
 
 type ClassroomState = {

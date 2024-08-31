@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import DatePicker from "react-datepicker";
 import { Session, TimeOfDay } from "@/types/ClassroomTypes";
-import { useClassroomStore } from "@/hooks/useClassroomStore";
+import { useClassroomStore } from "@/store/useClassroomStore";
 import Modal from "../layout/Modal";
 import { Label } from "@/components/ui/label";
-import { useMealTimeStore } from "@/hooks/useMealTimeStore";
+import { useMealTimeStore } from "@/store/useMealTimeStore";
 import { validateTimes } from "@/lib/utils";
 
 interface AddSessionModalProps {

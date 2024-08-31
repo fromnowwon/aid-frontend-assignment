@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Modal from "../layout/Modal";
 import DatePicker from "react-datepicker";
-import { useClassroomStore } from "@/hooks/useClassroomStore";
+import { useClassroomStore } from "@/store/useClassroomStore";
 import { validateTimes } from "@/lib/utils";
 
 interface EditSessionModalProps {

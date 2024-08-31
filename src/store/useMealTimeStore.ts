@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { MealTime } from "@/types/MealTimeTypes";
-import { fetchMealTimes, updateMealTime } from "@/services/api";
+import { fetchMealTimes, updateMealTime } from "@/lib/api";
 
 interface MealTimesState {
   mealTimes: {

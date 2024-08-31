@@ -1,4 +1,4 @@
-import { useClassroomStore } from "@/hooks/useClassroomStore";
+import { useClassroomStore } from "@/store/useClassroomStore";
 import { useEffect, useState } from "react";
 import TimetableViewerPanel from "./TimetableViewerPanel";
 import TimetableViewerTab from "./TimetableViewerTab";

@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import AddSessionModal from "@/components/Modals/AddSessionModal";
 import DeleteSessionModal from "@/components/Modals/DeleteSessionModal";
-import { useClassroomStore } from "@/hooks/useClassroomStore";
+import { useClassroomStore } from "@/store/useClassroomStore";
 import EditSessionModal from "../Modals/EditSessionModal";
 
 interface ScheduleSessionProps {

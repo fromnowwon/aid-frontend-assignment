@@ -1,4 +1,4 @@
-import { useMealTimeStore } from "@/hooks/useMealTimeStore";
+import { useMealTimeStore } from "@/store/useMealTimeStore";
 import MealTimeSession from "./MealTimeSession";
 import { useEffect } from "react";
 

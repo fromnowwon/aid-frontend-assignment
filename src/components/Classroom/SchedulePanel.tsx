@@ -1,5 +1,5 @@
 import ScheduleSession from "./ScheduleSession";
-import { useClassroomStore } from "@/hooks/useClassroomStore";
+import { useClassroomStore } from "@/store/useClassroomStore";
 
 interface SchedulePanelProps {
   activeTab: number;

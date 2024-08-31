@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useClassroomStore } from "@/hooks/useClassroomStore";
+import { useClassroomStore } from "@/store/useClassroomStore";
 import ClassroomTab from "./ClassroomTab";
 import SchedulePanel from "./SchedulePanel";
 import BatchButton from "./BatchButton";

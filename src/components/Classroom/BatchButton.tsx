@@ -2,7 +2,7 @@ import { Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import BatchConfirmModal from "../Modals/BatchConfirmModal";
-import { useClassroomStore } from "@/hooks/useClassroomStore";
+import { useClassroomStore } from "@/store/useClassroomStore";
 
 export default function BatchButton() {
   const [isLoading, setIsLoading] = useState(false);

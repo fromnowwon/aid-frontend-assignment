@@ -13,8 +13,8 @@
         {
           "sessionId": 2,
           "timeOfDay": "morning",
-          "startTime": "13:00",
-          "endTime": "14:00"
+          "startTime": "09:00",
+          "endTime": "09:50"
         },
         {
           "sessionId": 3,

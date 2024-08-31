@@ -7,7 +7,9 @@ export interface Classroom {
 export interface Session {
   sessionId: number;
   classroomId: number;
-  timeOfDay: "morning" | "afternoon" | "evening";
+  timeOfDay: TimeOfDay;
   startTime: string;
   endTime: string;
 }
+
+export type TimeOfDay = "morning" | "afternoon" | "evening";

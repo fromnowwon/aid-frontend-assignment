@@ -1,5 +1,4 @@
-import "react-time-picker/dist/TimePicker.css";
-import "react-clock/dist/Clock.css";
+import "react-datepicker/dist/react-datepicker.css";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import HomePage from "./pages/Home";
 import TimetablePage from "./pages/Timetable";

@@ -1,14 +1,14 @@
-interface TimetableTabProps {
+interface TimetableViewerTabProps {
   name: string;
   isActive: boolean;
   onClick: () => void;
 }
 
-export default function TimetableTab({
+export default function TimetableViewerTab({
   name,
   isActive,
   onClick,
-}: TimetableTabProps) {
+}: TimetableViewerTabProps) {
   return (
     <button
       onClick={onClick}

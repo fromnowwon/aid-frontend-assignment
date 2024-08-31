@@ -71,7 +71,9 @@ export default function ScheduleSession({
           <p>수업 없음</p>
         )}
       </div>
-      <Button onClick={openAddSessionModal}>+ {timeOfDay} 교시 추가</Button>
+      <Button onClick={openAddSessionModal} disabled={sessions.length >= 5}>
+        + {timeOfDay} 교시 추가
+      </Button>
 
       <AddSessionModal
         isOpen={isAddSessionModalOpen}

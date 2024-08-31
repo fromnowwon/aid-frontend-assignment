@@ -2,7 +2,6 @@ import {
   NavigationMenu,
   NavigationMenuList,
   NavigationMenuItem,
-  navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
 import { NavLink } from "react-router-dom";
 

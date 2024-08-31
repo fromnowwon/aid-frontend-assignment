@@ -2,6 +2,7 @@ import { useState } from "react";
 import Modal from "../layout/Modal";
 import DatePicker from "react-datepicker";
 import { useClassroomStore } from "@/hooks/useClassroomStore";
+import { validateTimes } from "@/lib/utils";
 
 interface EditSessionModalProps {
   isOpen: boolean;
@@ -25,6 +26,7 @@ export default function EditSessionModal({
   const { updateSessionTime } = useClassroomStore();
   const [startTime, setStartTime] = useState<Date | null>(null);
   const [endTime, setEndTime] = useState<Date | null>(null);
+  const [validationError, setValidationError] = useState<string | null>(null);
 
   const handleSave = async () => {
     try {
@@ -47,6 +49,22 @@ export default function EditSessionModal({
     }
   };
 
+  const handleStartTimeChange = (date: Date | null) => {
+    if (!date) return;
+
+    setStartTime(date);
+    const validationResult = validateTimes(date, endTime);
+    setValidationError(validationResult);
+  };
+
+  const handleEndTimeChange = (date: Date | null) => {
+    if (!date) return;
+
+    setEndTime(date);
+    const validationResult = validateTimes(startTime, date);
+    setValidationError(validationResult);
+  };
+
   return (
     <Modal
       isOpen={isOpen}
@@ -63,17 +81,16 @@ export default function EditSessionModal({
           label: "수정",
           onClick: handleSave,
           variant: "destructive",
+          disabled: !!validationError,
         },
       ]}
     >
-      <div className="flex flex-col space-y-4">
+      <div className="flex items-center space-x-4">
         <div>
-          <label className="block text-sm font-medium text-gray-700">
-            시작 시간
-          </label>
+          <label className="hidden">시작 시간</label>
           <DatePicker
             selected={startTime}
-            onChange={(date) => setStartTime(date)}
+            onChange={(date) => handleStartTimeChange(date)}
             showTimeSelect
             showTimeSelectOnly
             timeFormat="HH:mm"
@@ -84,15 +101,15 @@ export default function EditSessionModal({
             minTime={new Date(`2024-01-01T${prevSessionEndTime}`)}
             maxTime={new Date(`2024-01-01T${nextSessionStartTime}`)}
             className="border border-gray-300 rounded-md p-2 w-20 text-sm"
+            placeholderText="시작 시간"
           />
         </div>
+        <span>-</span>
         <div>
-          <label className="block text-sm font-medium text-gray-700">
-            종료 시간
-          </label>
+          <label className="hidden">종료 시간</label>
           <DatePicker
             selected={endTime}
-            onChange={(date) => setEndTime(date)}
+            onChange={(date) => handleEndTimeChange(date)}
             showTimeSelect
             showTimeSelectOnly
             timeFormat="HH:mm"
@@ -102,10 +119,14 @@ export default function EditSessionModal({
             autoFocus={false}
             minTime={startTime || new Date(`2024-01-01T${earliestSessionTime}`)}
             maxTime={new Date(`2024-01-01T${nextSessionStartTime}`)}
+            placeholderText="종료 시간"
             className="border border-gray-300 rounded-md p-2 w-20 text-sm"
           />
         </div>
       </div>
+      {validationError && (
+        <p className="text-red-500 text-sm">{validationError}</p>
+      )}
     </Modal>
   );
 }

@@ -30,8 +30,7 @@ export default function BatchConfirmModal({
           type: "submit",
         },
       ]}
-    >
-      <div></div>
-    </Modal>
+      children={undefined}
+    ></Modal>
   );
 }

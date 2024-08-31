@@ -14,6 +14,7 @@ interface FooterButton {
   type?: "button" | "submit";
   variant?: "default" | "outline" | "destructive";
   isVisible?: boolean;
+  disabled?: boolean;
 }
 
 interface ModalProps {
@@ -49,6 +50,7 @@ export default function Modal({
                 type={button.type || "button"}
                 variant={button.variant || "default"}
                 onClick={button.onClick}
+                disabled={button.disabled}
               >
                 {button.label}
               </Button>

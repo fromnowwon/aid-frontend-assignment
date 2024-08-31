@@ -5,6 +5,7 @@ import { useClassroomStore } from "@/hooks/useClassroomStore";
 import Modal from "../layout/Modal";
 import { Label } from "@/components/ui/label";
 import { useMealTimeStore } from "@/hooks/useMealTimeStore";
+import { validateTimes } from "@/lib/utils";
 
 interface AddSessionModalProps {
   isOpen: boolean;
@@ -49,6 +50,7 @@ export default function AddSessionModal({
   const [startTime, setStartTime] = useState<Date | null>(null);
   const [endTime, setEndTime] = useState<Date | null>(null);
   const [newSessionId, setNewSessionId] = useState<number>(0);
+  const [validationError, setValidationError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchAndSetSessionId = async () => {
@@ -140,16 +142,18 @@ export default function AddSessionModal({
     }
 
     try {
-      await addSession(
-        classroomId,
-        timeOfDay,
-        formattedStartTime,
-        formattedEndTime,
-        newSessionId
-      );
+      if (formattedStartTime && formattedEndTime) {
+        await addSession(
+          classroomId,
+          timeOfDay,
+          formattedStartTime,
+          formattedEndTime,
+          newSessionId
+        );
 
-      // 교실 정보를 다시 가져와 상태를 업데이트
-      await getClassrooms();
+        // 교실 정보를 다시 가져와 상태를 업데이트
+        await getClassrooms();
+      }
 
       onClose();
     } catch (error) {
@@ -159,6 +163,22 @@ export default function AddSessionModal({
 
   const handleCancel = () => {
     onClose();
+  };
+
+  const handleStartTimeChange = (date: Date | null) => {
+    if (!date) return;
+
+    setStartTime(date);
+    const validationResult = validateTimes(date, endTime);
+    setValidationError(validationResult);
+  };
+
+  const handleEndTimeChange = (date: Date | null) => {
+    if (!date) return;
+
+    setEndTime(date);
+    const validationResult = validateTimes(startTime, date);
+    setValidationError(validationResult);
   };
 
   return (
@@ -178,6 +198,7 @@ export default function AddSessionModal({
           onClick: handleSave,
           variant: "default",
           type: "submit",
+          disabled: !!validationError,
         },
       ]}
     >
@@ -209,7 +230,7 @@ export default function AddSessionModal({
               </Label>
               <DatePicker
                 selected={startTime}
-                onChange={(date) => setStartTime(date)}
+                onChange={(date) => handleStartTimeChange(date)}
                 showTimeSelect
                 showTimeSelectOnly
                 timeFormat="HH:mm"
@@ -229,6 +250,7 @@ export default function AddSessionModal({
                     !isTimeWithinMealTimes(selectedTime) // 식사 시간 겹침 체크
                   );
                 }}
+                placeholderText="시작 시간"
                 className="border border-gray-300 rounded-md p-2 w-20 text-sm"
               />
             </div>
@@ -239,7 +261,7 @@ export default function AddSessionModal({
               </Label>
               <DatePicker
                 selected={endTime}
-                onChange={(date) => setEndTime(date)}
+                onChange={(date) => handleEndTimeChange(date)}
                 showTimeSelect
                 showTimeSelectOnly
                 timeFormat="HH:mm"
@@ -259,12 +281,16 @@ export default function AddSessionModal({
                     !isTimeWithinMealTimes(selectedTime) // 식사 시간 겹침 체크
                   );
                 }}
+                placeholderText="종료 시간"
                 className="border border-gray-300 rounded-md p-2 w-20 text-sm"
               />
             </div>
           </div>
         </div>
       </div>
+      {validationError && (
+        <p className="text-red-500 text-sm">{validationError}</p>
+      )}
     </Modal>
   );
 }

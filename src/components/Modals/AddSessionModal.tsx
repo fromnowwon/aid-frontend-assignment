@@ -37,6 +37,13 @@ export default function AddSessionModal({
   timeOfDay,
   sessions,
 }: AddSessionModalProps) {
+  const timeTitle =
+    timeOfDay === "morning"
+      ? "오전"
+      : timeOfDay === "afternoon"
+      ? "오후"
+      : "저녁";
+
   const { getClassrooms, addSession } = useClassroomStore((state) => state);
   const mealTimes = useMealTimeStore((state) => state.mealTimes);
   const [startTime, setStartTime] = useState<Date | null>(null);
@@ -175,69 +182,86 @@ export default function AddSessionModal({
       ]}
     >
       <div>
-        <h3>{timeOfDay} 리스트</h3>
-        <ul>
-          {sessions.map((session) => (
-            <li key={session.sessionId}>
-              {session.sessionId}교시: {session.startTime} - {session.endTime}
-            </li>
-          ))}
-        </ul>
+        <div className="border">
+          <h3 className="font-semibold text-sm bg-slate-200 py-2 px-3">
+            {timeTitle} 리스트
+          </h3>
+          <ul className="p-3">
+            {sessions.map((session) => (
+              <li key={session.sessionId} className="flex space-x-3">
+                <div className="text-sm font-semibold">
+                  {session.sessionId}교시
+                </div>
+                <div className="text-sm">
+                  {session.startTime} - {session.endTime}
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
 
-        <div className="flex">
-          <div>{newSessionId}교시</div>
-          <div>
-            <Label htmlFor="start">시작 시간</Label>
-
-            <DatePicker
-              selected={startTime}
-              onChange={(date) => setStartTime(date)}
-              showTimeSelect
-              showTimeSelectOnly
-              timeFormat="HH:mm"
-              dateFormat="HH:mm"
-              timeCaption="Time"
-              timeIntervals={1}
-              autoFocus={false}
-              minTime={possibleStartTime}
-              maxTime={possibleEndTime}
-              filterTime={(time) => {
-                const selectedTime = new Date(
-                  `2024-01-01T${time.toTimeString().slice(0, 5)}`
-                );
-                return (
-                  selectedTime >= possibleStartTime &&
-                  selectedTime <= possibleEndTime &&
-                  !isTimeWithinMealTimes(selectedTime) // 식사 시간 겹침 체크
-                );
-              }}
-            />
-          </div>
-          <div>
-            <Label htmlFor="end">종료 시간</Label>
-            <DatePicker
-              selected={endTime}
-              onChange={(date) => setEndTime(date)}
-              showTimeSelect
-              showTimeSelectOnly
-              timeFormat="HH:mm"
-              dateFormat="HH:mm"
-              timeCaption="Time"
-              timeIntervals={1}
-              autoFocus={false}
-              minTime={startTime || possibleStartTime}
-              maxTime={possibleEndTime}
-              filterTime={(time) => {
-                const selectedTime = new Date(
-                  `2024-01-01T${time.toTimeString().slice(0, 5)}`
-                );
-                return (
-                  selectedTime >= possibleStartTime &&
-                  selectedTime <= possibleEndTime &&
-                  !isTimeWithinMealTimes(selectedTime) // 식사 시간 겹침 체크
-                );
-              }}
-            />
+        <div className="flex space-x-3 items-center mt-3">
+          <div className="text-sm font-semibold">+ {newSessionId}교시</div>
+          <div className="flex space-x-2 items-center">
+            <div className="">
+              <Label htmlFor="start" className="hidden">
+                시작 시간
+              </Label>
+              <DatePicker
+                selected={startTime}
+                onChange={(date) => setStartTime(date)}
+                showTimeSelect
+                showTimeSelectOnly
+                timeFormat="HH:mm"
+                dateFormat="HH:mm"
+                timeCaption="Time"
+                timeIntervals={1}
+                autoFocus={false}
+                minTime={possibleStartTime}
+                maxTime={possibleEndTime}
+                filterTime={(time) => {
+                  const selectedTime = new Date(
+                    `2024-01-01T${time.toTimeString().slice(0, 5)}`
+                  );
+                  return (
+                    selectedTime >= possibleStartTime &&
+                    selectedTime <= possibleEndTime &&
+                    !isTimeWithinMealTimes(selectedTime) // 식사 시간 겹침 체크
+                  );
+                }}
+                className="border border-gray-300 rounded-md p-2 w-20 text-sm"
+              />
+            </div>
+            <span>-</span>
+            <div className="flex">
+              <Label htmlFor="end" className="hidden">
+                종료 시간
+              </Label>
+              <DatePicker
+                selected={endTime}
+                onChange={(date) => setEndTime(date)}
+                showTimeSelect
+                showTimeSelectOnly
+                timeFormat="HH:mm"
+                dateFormat="HH:mm"
+                timeCaption="Time"
+                timeIntervals={1}
+                autoFocus={false}
+                minTime={startTime || possibleStartTime}
+                maxTime={possibleEndTime}
+                filterTime={(time) => {
+                  const selectedTime = new Date(
+                    `2024-01-01T${time.toTimeString().slice(0, 5)}`
+                  );
+                  return (
+                    selectedTime >= possibleStartTime &&
+                    selectedTime <= possibleEndTime &&
+                    !isTimeWithinMealTimes(selectedTime) // 식사 시간 겹침 체크
+                  );
+                }}
+                className="border border-gray-300 rounded-md p-2 w-20 text-sm"
+              />
+            </div>
           </div>
         </div>
       </div>

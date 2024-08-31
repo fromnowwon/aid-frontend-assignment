@@ -37,7 +37,11 @@ export default function ScheduleSession({
   sessions,
 }: ScheduleSessionProps) {
   const timeTitle =
-    timeOfDay === "morning" ? "오전" : timeOfDay === "lunch" ? "오후" : "저녁";
+    timeOfDay === "morning"
+      ? "오전"
+      : timeOfDay === "afternoon"
+      ? "오후"
+      : "저녁";
 
   const [isAddSessionModalOpen, setAddSessionModalOpen] = useState(false);
   const [isEditSessionModalOpen, setEditSessionModalOpen] = useState(false);

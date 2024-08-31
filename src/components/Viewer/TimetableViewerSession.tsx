@@ -27,7 +27,7 @@ export default function TimetableViewerSession({
   );
 
   return (
-    <Table>
+    <Table className="min-w-[766px]">
       <TableHeader>
         <TableRow>
           <TableHead>오전</TableHead>

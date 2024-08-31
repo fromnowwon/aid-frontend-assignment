@@ -18,6 +18,8 @@ export default function EditMealTimeModal({
   mealType,
   classroomId,
 }: EditMealTimeModalProps) {
+  const mealTypeTitle = mealType === "lunch" ? "점심" : "저녁";
+
   const { fetchMealTimes, updateMealTime } = useMealTimeStore();
   const [startTime, setStartTime] = useState<Date | null>(null);
   const [endTime, setEndTime] = useState<Date | null>(null);
@@ -99,8 +101,8 @@ export default function EditMealTimeModal({
     <Modal
       isOpen={isOpen}
       onClose={onClose}
-      title="교시 수정"
-      description={`식사 시간을 수정할 수 있습니다.\n수업과 중복될 수 없습니다.`}
+      title={`${mealTypeTitle} 시간 수정`}
+      description={`${mealTypeTitle} 시간을 수정할 수 있습니다.\n수업과 중복될 수 없습니다.`}
       footerButtons={[
         {
           label: "취소",
@@ -132,7 +134,7 @@ export default function EditMealTimeModal({
             minTime={new Date(`2024-01-01T${rangeStart}:00`)}
             maxTime={new Date(`2024-01-01T${rangeEnd}:00`)}
             excludeTimes={disabledTimes}
-            className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm sm:text-sm"
+            className="border border-gray-300 rounded-md p-2 w-20 text-sm"
           />
         </div>
         <div>
@@ -152,7 +154,7 @@ export default function EditMealTimeModal({
             minTime={new Date(`2024-01-01T${rangeStart}:00`)}
             maxTime={new Date(`2024-01-01T${rangeEnd}:00`)}
             excludeTimes={disabledTimes}
-            className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm sm:text-sm"
+            className="border border-gray-300 rounded-md p-2 w-20 text-sm"
           />
         </div>
       </div>

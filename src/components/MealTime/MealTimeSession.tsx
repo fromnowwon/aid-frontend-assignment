@@ -14,6 +14,8 @@ export default function MealTimeSession({
   mealTime,
   mealType,
 }: MealTimeSessionProps) {
+  const mealTypeTitle = mealType === "lunch" ? "점심" : "저녁";
+
   const { classrooms, activeClassroomId } = useClassroomStore((state) => state);
   const classroom = classrooms.find(
     (classroom) => classroom.id === activeClassroomId
@@ -27,7 +29,7 @@ export default function MealTimeSession({
   return (
     <>
       <div className="flex items-center space-x-2">
-        <h4 className="text-sm">{mealType === "lunch" ? "점심" : "저녁"}</h4>
+        <h4 className="text-sm font-semibold">{mealTypeTitle}</h4>
         <div>
           {mealTime.startTime} - {mealTime.endTime}
         </div>

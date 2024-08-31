@@ -15,8 +15,8 @@ export default function BatchConfirmModal({
     <Modal
       isOpen={isOpen}
       onClose={onClose}
-      title="설정 확인"
-      description="이 설정을 모든 classroom에 적용하시겠습니까?"
+      title="모든 교실 동일 시간표 적용"
+      description={`현재 교실의 시간표를 모든 교실에 적용하시겠습니까?\n이 작업은 취소할 수 없습니다.`}
       footerButtons={[
         {
           label: "취소",

@@ -31,6 +31,43 @@ app.get("/api/meal-times", async (req, res) => {
   res.json(db.data.mealTimes);
 });
 
+// 수업(교시) 삭제
+app.delete(
+  "/api/classrooms/:classroomId/sessions/:sessionId",
+  async (req, res) => {
+    const { classroomId, sessionId } = req.params;
+
+    try {
+      const classroom = db.data.classrooms.find(
+        (c) => c.id === parseInt(classroomId)
+      );
+      if (!classroom) {
+        return res.status(404).json({ message: "해당 교실이 없습니다." });
+      }
+
+      const sessions = classroom.sessions.filter(
+        (s) => s.sessionId !== parseInt(sessionId)
+      );
+
+      // 교시 순서 재정렬, 아이디 재부여
+      const updatedSessions = sessions
+        .sort((a, b) => a.startTime.localeCompare(b.startTime))
+        .map((session, index) => ({
+          ...session,
+          sessionId: index + 1,
+        }));
+
+      classroom.sessions = updatedSessions;
+
+      await db.write();
+      res.status(200).json({ message: "수업 삭제 성공" });
+    } catch (error) {
+      console.error("수업 삭제 실패: ", error);
+      res.status(500).json({ message: "수업 삭제 실패" });
+    }
+  }
+);
+
 // 포트 설정
 const PORT = 5000;
 

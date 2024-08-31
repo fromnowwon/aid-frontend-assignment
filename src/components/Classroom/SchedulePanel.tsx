@@ -13,19 +13,24 @@ export default function SchedulePanel({ activeTab }: SchedulePanelProps) {
 
   return (
     <div className="flex space-x-3">
-      {timeOfDays.map((timeOfDay) => {
-        const sessions = classroom?.sessions.filter(
-          (session) => session.timeOfDay === timeOfDay
-        );
+      {classroom ? (
+        timeOfDays.map((timeOfDay) => {
+          const sessions = classroom?.sessions.filter(
+            (session) => session.timeOfDay === timeOfDay
+          );
 
-        return (
-          <ScheduleSession
-            key={timeOfDay}
-            timeOfDay={timeOfDay}
-            sessions={sessions || []}
-          />
-        );
-      })}
+          return (
+            <ScheduleSession
+              key={timeOfDay}
+              classroomId={classroom.id}
+              timeOfDay={timeOfDay}
+              sessions={sessions || []}
+            />
+          );
+        })
+      ) : (
+        <div>해당 교실 없음</div>
+      )}
     </div>
   );
 }

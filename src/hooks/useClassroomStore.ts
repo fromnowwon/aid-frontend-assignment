@@ -1,10 +1,11 @@
 import { create } from "zustand";
-import { fetchClassrooms } from "@/services/api";
+import { fetchClassrooms, removeSession } from "@/services/api";
 import { Classroom } from "@/types/ClassroomTypes";
 
 type ClassroomState = {
   classrooms: Classroom[];
   fetchClassrooms: () => Promise<void>;
+  removeSession: (classroomId: number, sessionId: number) => Promise<void>;
 };
 
 export const useClassroomStore = create<ClassroomState>((set) => ({
@@ -13,6 +14,14 @@ export const useClassroomStore = create<ClassroomState>((set) => ({
     try {
       const data = await fetchClassrooms();
       set({ classrooms: data });
+    } catch (error) {
+      console.error("API 요청 오류:", error);
+    }
+  },
+  removeSession: async (classroomId: number, sessionId: number) => {
+    try {
+      await removeSession(classroomId, sessionId);
+      await fetchClassrooms();
     } catch (error) {
       console.error("API 요청 오류:", error);
     }

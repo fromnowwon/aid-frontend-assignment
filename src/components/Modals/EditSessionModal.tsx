@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Modal from "../layout/Modal";
 import DatePicker from "react-datepicker";
 import { useClassroomStore } from "@/hooks/useClassroomStore";
@@ -27,6 +27,7 @@ export default function EditSessionModal({
   const [startTime, setStartTime] = useState<Date | null>(null);
   const [endTime, setEndTime] = useState<Date | null>(null);
   const [validationError, setValidationError] = useState<string | null>(null);
+  const [isReady, setIsReady] = useState(false);
 
   const handleSave = async () => {
     try {
@@ -65,6 +66,15 @@ export default function EditSessionModal({
     setValidationError(validationResult);
   };
 
+  useEffect(() => {
+    if (isOpen) {
+      const timer = setTimeout(() => setIsReady(true), 0);
+      return () => clearTimeout(timer);
+    } else {
+      setIsReady(false);
+    }
+  }, [isOpen]);
+
   return (
     <Modal
       isOpen={isOpen}
@@ -85,47 +95,53 @@ export default function EditSessionModal({
         },
       ]}
     >
-      <div className="flex items-center space-x-4">
+      {isReady && (
         <div>
-          <label className="hidden">시작 시간</label>
-          <DatePicker
-            selected={startTime}
-            onChange={(date) => handleStartTimeChange(date)}
-            showTimeSelect
-            showTimeSelectOnly
-            timeFormat="HH:mm"
-            timeIntervals={1}
-            dateFormat="HH:mm"
-            timeCaption="Time"
-            autoFocus={false}
-            minTime={new Date(`2024-01-01T${prevSessionEndTime}`)}
-            maxTime={new Date(`2024-01-01T${nextSessionStartTime}`)}
-            className="border border-gray-300 rounded-md p-2 w-20 text-sm"
-            placeholderText="시작 시간"
-          />
+          <div className="flex items-center space-x-4">
+            <div>
+              <label className="hidden">시작 시간</label>
+              <DatePicker
+                selected={startTime}
+                onChange={(date) => handleStartTimeChange(date)}
+                showTimeSelect
+                showTimeSelectOnly
+                timeFormat="HH:mm"
+                timeIntervals={1}
+                dateFormat="HH:mm"
+                timeCaption="Time"
+                autoFocus={false}
+                minTime={new Date(`2024-01-01T${prevSessionEndTime}`)}
+                maxTime={new Date(`2024-01-01T${nextSessionStartTime}`)}
+                className="border border-gray-300 rounded-md p-2 w-20 text-sm"
+                placeholderText="시작 시간"
+              />
+            </div>
+            <span>-</span>
+            <div>
+              <label className="hidden">종료 시간</label>
+              <DatePicker
+                selected={endTime}
+                onChange={(date) => handleEndTimeChange(date)}
+                showTimeSelect
+                showTimeSelectOnly
+                timeFormat="HH:mm"
+                timeIntervals={1}
+                dateFormat="HH:mm"
+                timeCaption="Time"
+                autoFocus={false}
+                minTime={
+                  startTime || new Date(`2024-01-01T${earliestSessionTime}`)
+                }
+                maxTime={new Date(`2024-01-01T${nextSessionStartTime}`)}
+                placeholderText="종료 시간"
+                className="border border-gray-300 rounded-md p-2 w-20 text-sm"
+              />
+            </div>
+          </div>
+          {validationError && (
+            <p className="text-red-500 text-sm">{validationError}</p>
+          )}
         </div>
-        <span>-</span>
-        <div>
-          <label className="hidden">종료 시간</label>
-          <DatePicker
-            selected={endTime}
-            onChange={(date) => handleEndTimeChange(date)}
-            showTimeSelect
-            showTimeSelectOnly
-            timeFormat="HH:mm"
-            timeIntervals={1}
-            dateFormat="HH:mm"
-            timeCaption="Time"
-            autoFocus={false}
-            minTime={startTime || new Date(`2024-01-01T${earliestSessionTime}`)}
-            maxTime={new Date(`2024-01-01T${nextSessionStartTime}`)}
-            placeholderText="종료 시간"
-            className="border border-gray-300 rounded-md p-2 w-20 text-sm"
-          />
-        </div>
-      </div>
-      {validationError && (
-        <p className="text-red-500 text-sm">{validationError}</p>
       )}
     </Modal>
   );

@@ -26,6 +26,7 @@ export default function EditMealTimeModal({
   const [endTime, setEndTime] = useState<Date | null>(null);
   const [sessions, setSessions] = useState<Session[]>([]);
   const [validationError, setValidationError] = useState<string | null>(null);
+  const [isReady, setIsReady] = useState(false);
 
   // 식사 시간 범위 설정
   const getTimeRange = () => {
@@ -56,6 +57,10 @@ export default function EditMealTimeModal({
   useEffect(() => {
     if (isOpen) {
       fetchAllSessions();
+      const timer = setTimeout(() => setIsReady(true), 0);
+      return () => clearTimeout(timer);
+    } else {
+      setIsReady(false);
     }
   }, [isOpen]);
 
@@ -138,49 +143,53 @@ export default function EditMealTimeModal({
         },
       ]}
     >
-      <div className="flex items-center space-x-4">
+      {isReady && (
         <div>
-          <label className="hidden">시작 시간</label>
-          <DatePicker
-            selected={startTime}
-            onChange={(date) => handleStartTimeChange(date)}
-            showTimeSelect
-            showTimeSelectOnly
-            timeFormat="HH:mm"
-            timeIntervals={1}
-            dateFormat="HH:mm"
-            timeCaption="Time"
-            autoFocus={false}
-            minTime={new Date(`2024-01-01T${rangeStart}:00`)}
-            maxTime={new Date(`2024-01-01T${rangeEnd}:00`)}
-            excludeTimes={disabledTimes}
-            placeholderText="시작 시간"
-            className="border border-gray-300 rounded-md p-2 w-20 text-sm"
-          />
+          <div className="flex items-center space-x-4">
+            <div>
+              <label className="hidden">시작 시간</label>
+              <DatePicker
+                selected={startTime}
+                onChange={(date) => handleStartTimeChange(date)}
+                showTimeSelect
+                showTimeSelectOnly
+                timeFormat="HH:mm"
+                timeIntervals={1}
+                dateFormat="HH:mm"
+                timeCaption="Time"
+                autoFocus={false}
+                minTime={new Date(`2024-01-01T${rangeStart}:00`)}
+                maxTime={new Date(`2024-01-01T${rangeEnd}:00`)}
+                excludeTimes={disabledTimes}
+                placeholderText="시작 시간"
+                className="border border-gray-300 rounded-md p-2 w-20 text-sm"
+              />
+            </div>
+            <span>-</span>
+            <div>
+              <label className="hidden">종료 시간</label>
+              <DatePicker
+                selected={endTime}
+                onChange={(date) => handleEndTimeChange(date)}
+                showTimeSelect
+                showTimeSelectOnly
+                timeFormat="HH:mm"
+                timeIntervals={1}
+                dateFormat="HH:mm"
+                timeCaption="Time"
+                autoFocus={false}
+                minTime={new Date(`2024-01-01T${rangeStart}:00`)}
+                maxTime={new Date(`2024-01-01T${rangeEnd}:00`)}
+                excludeTimes={disabledTimes}
+                placeholderText="종료 시간"
+                className="border border-gray-300 rounded-md p-2 w-20 text-sm"
+              />
+            </div>
+          </div>
+          {validationError && (
+            <p className="text-red-500 text-sm">{validationError}</p>
+          )}
         </div>
-        <span>-</span>
-        <div>
-          <label className="hidden">종료 시간</label>
-          <DatePicker
-            selected={endTime}
-            onChange={(date) => handleEndTimeChange(date)}
-            showTimeSelect
-            showTimeSelectOnly
-            timeFormat="HH:mm"
-            timeIntervals={1}
-            dateFormat="HH:mm"
-            timeCaption="Time"
-            autoFocus={false}
-            minTime={new Date(`2024-01-01T${rangeStart}:00`)}
-            maxTime={new Date(`2024-01-01T${rangeEnd}:00`)}
-            excludeTimes={disabledTimes}
-            placeholderText="종료 시간"
-            className="border border-gray-300 rounded-md p-2 w-20 text-sm"
-          />
-        </div>
-      </div>
-      {validationError && (
-        <p className="text-red-500 text-sm">{validationError}</p>
       )}
     </Modal>
   );

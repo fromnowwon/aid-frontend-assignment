@@ -83,7 +83,7 @@ export default function EditSessionModal({
             autoFocus={false}
             minTime={new Date(`2024-01-01T${prevSessionEndTime}`)}
             maxTime={new Date(`2024-01-01T${nextSessionStartTime}`)}
-            className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm sm:text-sm"
+            className="border border-gray-300 rounded-md p-2 w-20 text-sm"
           />
         </div>
         <div>
@@ -102,7 +102,7 @@ export default function EditSessionModal({
             autoFocus={false}
             minTime={startTime || new Date(`2024-01-01T${earliestSessionTime}`)}
             maxTime={new Date(`2024-01-01T${nextSessionStartTime}`)}
-            className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm sm:text-sm"
+            className="border border-gray-300 rounded-md p-2 w-20 text-sm"
           />
         </div>
       </div>

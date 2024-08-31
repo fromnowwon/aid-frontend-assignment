@@ -1,11 +1,18 @@
 import { create } from "zustand";
-import { addSession, fetchClassrooms, removeSession } from "@/services/api";
+import {
+  addSession,
+  applySessionsToAll,
+  fetchClassrooms,
+  removeSession,
+} from "@/services/api";
 import { Classroom, Session } from "@/types/ClassroomTypes";
 
 type ClassroomState = {
   classrooms: Classroom[];
-  fetchClassrooms: () => Promise<void>;
+  activeClassroomId: number | null;
+  getClassrooms: () => Promise<void>;
   getClassroomSessions: (classroomId: number) => Promise<Session[]>;
+  setActiveClassroomId: (id: number) => void;
   addSession: (
     classroomId: number,
     timeOfDay: string,
@@ -14,11 +21,13 @@ type ClassroomState = {
     sessionId: number
   ) => Promise<void>;
   removeSession: (classroomId: number, sessionId: number) => Promise<void>;
+  applySessionsToAllClassrooms: (sessions: Session[]) => Promise<void>;
 };
 
-export const useClassroomStore = create<ClassroomState>((set) => ({
+export const useClassroomStore = create<ClassroomState>((set, get) => ({
   classrooms: [],
-  fetchClassrooms: async () => {
+  activeClassroomId: null,
+  getClassrooms: async () => {
     try {
       const data = await fetchClassrooms();
       set({ classrooms: data });
@@ -26,8 +35,9 @@ export const useClassroomStore = create<ClassroomState>((set) => ({
       console.error("API 요청 오류:", error);
     }
   },
-  // 현재 classroom의 모든 세션 가져오기
+  setActiveClassroomId: (id) => set({ activeClassroomId: id }),
   getClassroomSessions: async (classroomId) => {
+    // 현재 교실의 모든 세션 가져오기
     const state: ClassroomState = useClassroomStore.getState(); // 상태를 직접 가져오기
     const classroom = state.classrooms.find((c) => c.id === classroomId);
     return classroom ? classroom.sessions : [];
@@ -40,8 +50,23 @@ export const useClassroomStore = create<ClassroomState>((set) => ({
     sessionId: number
   ) => {
     try {
-      await addSession(classroomId, timeOfDay, startTime, endTime, sessionId);
-      await fetchClassrooms();
+      const data = await addSession(
+        classroomId,
+        timeOfDay,
+        startTime,
+        endTime,
+        sessionId
+      );
+      set((state) => ({
+        classrooms: state.classrooms.map((classroom) =>
+          classroom.id === classroomId
+            ? {
+                ...classroom,
+                sessions: [...classroom.sessions, data],
+              }
+            : classroom
+        ),
+      }));
     } catch (error) {
       console.error("API 요청 오류:", error);
     }
@@ -61,6 +86,24 @@ export const useClassroomStore = create<ClassroomState>((set) => ({
             : classroom
         ),
       }));
+    } catch (error) {
+      console.error("API 요청 오류:", error);
+    }
+  },
+  applySessionsToAllClassrooms: async (sessions: Session[]) => {
+    const { classrooms } = get();
+
+    try {
+      // 클라이언트 상태 업데이트
+      const updatedClassrooms = classrooms.map((classroom) => ({
+        ...classroom,
+        sessions: [...sessions],
+      }));
+
+      set({ classrooms: updatedClassrooms });
+
+      // 서버에 변경 사항 전송
+      await applySessionsToAll(sessions);
     } catch (error) {
       console.error("API 요청 오류:", error);
     }

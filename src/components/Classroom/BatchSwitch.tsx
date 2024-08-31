@@ -2,9 +2,13 @@ import { Switch } from "@/components/ui/switch";
 import { useState } from "react";
 import BatchConfirmModal from "../Modals/BatchConfirmModal";
 import { useBatchStore } from "@/hooks/useBatchStore";
+import { useClassroomStore } from "@/hooks/useClassroomStore";
 
 export default function BatchSwitch() {
   const { isBatchActive, setBatchActive } = useBatchStore();
+  const { classrooms, activeClassroomId, applySessionsToAllClassrooms } =
+    useClassroomStore();
+
   const [isConfirmModalOpen, setConfirmModalOpen] = useState(false);
 
   const handleSwitchChange = () => {
@@ -17,13 +21,26 @@ export default function BatchSwitch() {
     }
   };
 
-  const closeConfirmModal = () => {
-    setConfirmModalOpen(false);
-  };
-
   const handleConfirm = async () => {
     setBatchActive(true);
-    closeConfirmModal();
+    setConfirmModalOpen(false);
+
+    // 현재 활성화된 classroom의 sessions을 다른 classroom에 적용
+    const activeClassroom = classrooms.find(
+      (classroom) => classroom.id === activeClassroomId
+    );
+
+    if (activeClassroom) {
+      try {
+        await applySessionsToAllClassrooms(activeClassroom.sessions);
+      } catch (error) {
+        console.error("모든 교실에 세션 복사 실패:", error);
+      }
+    }
+  };
+
+  const closeConfirmModal = () => {
+    setConfirmModalOpen(false);
   };
 
   return (

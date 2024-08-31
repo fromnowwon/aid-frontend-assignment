@@ -106,6 +106,23 @@ app.delete(
   }
 );
 
+// 모든 교실 동일 시간표 적용
+app.post(`/api/apply-sessions-to-all`, async (req, res) => {
+  const { sessions } = req.body;
+
+  try {
+    db.data.classrooms.forEach((classroom) => {
+      classroom.sessions = [...sessions];
+    });
+
+    await db.write();
+    res.status(200).json({ message: "동일 시간표 적용 성공" });
+  } catch (error) {
+    console.error("동일 시간표 적용 실패: ", error);
+    res.status(500).json({ message: "동일 시간표 적용 실패" });
+  }
+});
+
 // 포트 설정
 const PORT = 5000;
 

@@ -5,30 +5,33 @@ import SchedulePanel from "./SchedulePanel";
 import BatchSwitch from "./BatchSwitch";
 
 export default function ClassroomTabs() {
-  const { classrooms, fetchClassrooms } = useClassroomStore();
+  const { classrooms, getClassrooms, setActiveClassroomId } =
+    useClassroomStore();
   const [activeTab, setActiveTab] = useState<number | null>(
     classrooms.length > 0 ? classrooms[0].id : null
   );
 
   const handleTabClick = (classroomId: number) => {
     setActiveTab(classroomId);
+    setActiveClassroomId(classroomId);
   };
 
   useEffect(() => {
     // 초기 데이터 로드
     const loadData = async () => {
-      await fetchClassrooms();
+      await getClassrooms();
     };
 
     loadData();
-  }, [fetchClassrooms]);
+  }, [getClassrooms]);
 
   useEffect(() => {
     if (classrooms.length > 0) {
       // 초기 활성화 탭 설정
       setActiveTab(classrooms[0].id);
+      setActiveClassroomId(classrooms[0].id);
     }
-  }, [classrooms]);
+  }, [classrooms, setActiveClassroomId]);
 
   return (
     <div>

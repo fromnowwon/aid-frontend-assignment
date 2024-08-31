@@ -4,7 +4,7 @@ import TimetablePanel from "./TimetablePanel";
 import TimetableTab from "./TimetableTab";
 
 export default function TimetableTabs() {
-  const { classrooms, fetchClassrooms } = useClassroomStore();
+  const { classrooms, getClassrooms } = useClassroomStore();
   const [activeTab, setActiveTab] = useState<number | null>(
     classrooms.length > 0 ? classrooms[0].id : null
   );
@@ -16,11 +16,11 @@ export default function TimetableTabs() {
   useEffect(() => {
     // 초기 데이터 로드
     const loadData = async () => {
-      await fetchClassrooms();
+      await getClassrooms();
     };
 
     loadData();
-  }, [fetchClassrooms]);
+  }, [getClassrooms]);
 
   useEffect(() => {
     if (classrooms.length > 0) {

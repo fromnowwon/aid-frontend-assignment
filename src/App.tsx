@@ -6,15 +6,17 @@ import Header from "./components/Header";
 
 function App() {
   return (
-    <Router>
-      <Header />
-      <main className="h-screen w-full max-w-[1024px] m-auto">
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/timetable" element={<TimetablePage />} />
-        </Routes>
-      </main>
-    </Router>
+    <div className="h-screen">
+      <Router>
+        <Header />
+        <main className="w-full max-w-[1024px] m-auto">
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/timetable" element={<TimetablePage />} />
+          </Routes>
+        </main>
+      </Router>
+    </div>
   );
 }
 

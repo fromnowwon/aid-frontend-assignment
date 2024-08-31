@@ -192,12 +192,6 @@ app.patch("/api/mealTimes/:mealType", async (req, res) => {
 
   try {
     const mealTimes = db.data.mealTimes;
-    console.log(mealTimes);
-    // if (!mealTimes[mealType]) {
-    //   return res
-    //     .status(404)
-    //     .json({ message: "유효하지 않은 식사 시간입니다." });
-    // }
 
     mealTimes[mealType] = { startTime, endTime };
 

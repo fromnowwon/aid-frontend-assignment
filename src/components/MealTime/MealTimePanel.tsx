@@ -5,8 +5,8 @@ import { useEffect } from "react";
 export default function MealTimePanel() {
   const { mealTimes, fetchMealTimes } = useMealTimeStore((state) => ({
     mealTimes: [
-      { mealType: "lunch", time: state.mealTimes.lunchTime },
-      { mealType: "dinner", time: state.mealTimes.dinnerTime },
+      { mealType: "lunch", time: state.mealTimes.lunch },
+      { mealType: "dinner", time: state.mealTimes.dinner },
     ],
     fetchMealTimes: state.fetchMealTimes,
   }));

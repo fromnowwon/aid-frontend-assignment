@@ -4,6 +4,7 @@ import {
   applySessionsToAll,
   fetchClassrooms,
   removeSession,
+  updateSession,
 } from "@/services/api";
 import { Classroom, Session } from "@/types/ClassroomTypes";
 
@@ -21,6 +22,12 @@ type ClassroomState = {
     sessionId: number
   ) => Promise<void>;
   removeSession: (classroomId: number, sessionId: number) => Promise<void>;
+  updateSessionTime: (
+    classroomId: number,
+    sessionId: number,
+    startTime: string,
+    endTime: string
+  ) => Promise<void>;
   applySessionsToAllClassrooms: (sessions: Session[]) => Promise<void>;
 };
 
@@ -57,6 +64,7 @@ export const useClassroomStore = create<ClassroomState>((set, get) => ({
         endTime,
         sessionId
       );
+
       set((state) => ({
         classrooms: state.classrooms.map((classroom) =>
           classroom.id === classroomId
@@ -81,6 +89,33 @@ export const useClassroomStore = create<ClassroomState>((set, get) => ({
                 ...classroom,
                 sessions: classroom.sessions.filter(
                   (session) => session.sessionId !== sessionId
+                ),
+              }
+            : classroom
+        ),
+      }));
+    } catch (error) {
+      console.error("API 요청 오류:", error);
+    }
+  },
+  updateSessionTime: async (
+    classroomId: number,
+    sessionId: number,
+    startTime: string,
+    endTime: string
+  ) => {
+    try {
+      await updateSession(classroomId, sessionId, startTime, endTime);
+
+      set((state) => ({
+        classrooms: state.classrooms.map((classroom) =>
+          classroom.id === classroomId
+            ? {
+                ...classroom,
+                sessions: classroom.sessions.map((session) =>
+                  session.sessionId === sessionId
+                    ? { ...session, startTime, endTime }
+                    : session
                 ),
               }
             : classroom

@@ -23,6 +23,8 @@ export default function ClassroomTabs() {
     };
 
     loadData();
+
+    console.log("classrooms:: ", classrooms);
   }, [getClassrooms]);
 
   useEffect(() => {

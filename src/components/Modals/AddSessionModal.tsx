@@ -93,7 +93,7 @@ export default function AddSessionModal({
     if (isOpen) {
       fetchAndSetSessionId();
     }
-  }, [classroomId, timeOfDay, isOpen]);
+  }, [classroomId, timeOfDay, isOpen, sessions]);
 
   // 현재 세션 시간 범위
   const { start: rangeStart, end: rangeEnd } = TIME_RANGES[
@@ -140,6 +140,7 @@ export default function AddSessionModal({
         formattedEndTime,
         newSessionId
       );
+
       onClose();
     } catch (error) {
       console.error("교시 추가 실패", error);
@@ -184,14 +185,17 @@ export default function AddSessionModal({
           <div>{newSessionId}교시</div>
           <div>
             <Label htmlFor="start">시작 시간</Label>
+
             <DatePicker
               selected={startTime}
               onChange={(date) => setStartTime(date)}
               showTimeSelect
               showTimeSelectOnly
-              timeIntervals={10}
-              timeCaption="Time"
+              timeFormat="HH:mm"
               dateFormat="HH:mm"
+              timeCaption="Time"
+              timeIntervals={1}
+              autoFocus={false}
               minTime={possibleStartTime}
               maxTime={possibleEndTime}
               filterTime={(time) => {
@@ -213,9 +217,11 @@ export default function AddSessionModal({
               onChange={(date) => setEndTime(date)}
               showTimeSelect
               showTimeSelectOnly
-              timeIntervals={10}
-              timeCaption="Time"
+              timeFormat="HH:mm"
               dateFormat="HH:mm"
+              timeCaption="Time"
+              timeIntervals={1}
+              autoFocus={false}
               minTime={startTime || possibleStartTime}
               maxTime={possibleEndTime}
               filterTime={(time) => {

@@ -20,7 +20,7 @@ export const fetchClassrooms = async () => {
 // 식사 시간 가져오기
 export const fetchMealTimes = async () => {
   try {
-    const response = await fetch(`${API_BASE_URL}/meal-times`);
+    const response = await fetch(`${API_BASE_URL}/mealTimes`);
     if (!response.ok) {
       throw new Error("식사 시간 가져오기 실패");
     }
@@ -109,6 +109,54 @@ export const applySessionsToAll = async (sessions: Session[]) => {
 
     const data = await response.json();
     return data;
+  } catch (error) {
+    console.error("API 요청 오류:", error);
+    throw error;
+  }
+};
+
+// 교시 변경
+export async function updateSession(
+  classroomId: number,
+  sessionId: number,
+  startTime: string,
+  endTime: string
+) {
+  const response = await fetch(
+    `${API_BASE_URL}/classrooms/${classroomId}/sessions/${sessionId}`,
+    {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ startTime, endTime }),
+    }
+  );
+
+  if (!response.ok) {
+    throw new Error("교시 수정 실패");
+  }
+
+  return response.json();
+}
+
+// 식사 시간 변경
+export const updateMealTime = async (
+  mealType: string,
+  newTimes: { startTime: string; endTime: string }
+) => {
+  try {
+    const response = await fetch(`${API_BASE_URL}/mealTimes/${mealType}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(newTimes),
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to update meal times");
+    }
   } catch (error) {
     console.error("API 요청 오류:", error);
     throw error;

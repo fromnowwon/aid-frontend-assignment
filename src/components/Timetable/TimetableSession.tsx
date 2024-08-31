@@ -52,8 +52,11 @@ export default function TimetableSession({ sessions }: TimetableSessionProps) {
           <TableCell>
             {groupedSessions.afternoon.length > 0 ? (
               groupedSessions.afternoon.map((session) => (
-                <div key={session.sessionId}>
-                  {session.startTime} - {session.endTime}
+                <div key={session.sessionId} className="flex space-x-3">
+                  <div>{session.sessionId}교시</div>
+                  <div>
+                    {session.startTime} - {session.endTime}
+                  </div>
                 </div>
               ))
             ) : (
@@ -63,8 +66,11 @@ export default function TimetableSession({ sessions }: TimetableSessionProps) {
           <TableCell>
             {groupedSessions.evening.length > 0 ? (
               groupedSessions.evening.map((session) => (
-                <div key={session.sessionId}>
-                  {session.startTime} - {session.endTime}
+                <div key={session.sessionId} className="flex space-x-3">
+                  <div>{session.sessionId}교시</div>
+                  <div>
+                    {session.startTime} - {session.endTime}
+                  </div>
                 </div>
               ))
             ) : (

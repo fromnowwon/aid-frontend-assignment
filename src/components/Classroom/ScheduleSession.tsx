@@ -2,6 +2,7 @@ import { Session } from "@/types/ClassroomTypes";
 import { Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
+import AddSessionModal from "@/components/Modals/AddSessionModal";
 import DeleteSessionModal from "@/components/Modals/DeleteSessionModal";
 import { useClassroomStore } from "@/hooks/useClassroomStore";
 
@@ -16,12 +17,16 @@ export default function ScheduleSession({
   timeOfDay,
   sessions,
 }: ScheduleSessionProps) {
+  const [isAddSessionModalOpen, setAddSessionModalOpen] = useState(false);
   const [isDeleteSessionModalOpen, setDeleteSessionModalOpen] = useState(false);
 
   const [sessionIdToDelete, setSessionIdToDelete] = useState<number | null>(
     null
   );
   const { removeSession } = useClassroomStore((state) => state);
+
+  const openAddSessionModal = () => setAddSessionModalOpen(true);
+  const closeAddSessionModal = () => setAddSessionModalOpen(false);
 
   // 삭제 모달 열기
   const openDeleteSessionModal = (sessionId: number) => {
@@ -66,7 +71,15 @@ export default function ScheduleSession({
           <p>수업 없음</p>
         )}
       </div>
-      <Button>+ {timeOfDay} 교시 추가</Button>
+      <Button onClick={openAddSessionModal}>+ {timeOfDay} 교시 추가</Button>
+
+      <AddSessionModal
+        isOpen={isAddSessionModalOpen}
+        onClose={closeAddSessionModal}
+        classroomId={classroomId}
+        timeOfDay={timeOfDay}
+        sessions={sessions}
+      />
 
       <DeleteSessionModal
         isOpen={isDeleteSessionModalOpen}

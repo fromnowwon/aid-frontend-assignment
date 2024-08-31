@@ -31,7 +31,45 @@ app.get("/api/meal-times", async (req, res) => {
   res.json(db.data.mealTimes);
 });
 
-// 수업(교시) 삭제
+// 교시 추가
+app.post("/api/classrooms/:classroomId/sessions", async (req, res) => {
+  const { classroomId } = req.params;
+  const { timeOfDay, startTime, endTime, sessionId } = req.body;
+
+  try {
+    // 현재 교실의 데이터 가져오기
+    const classroom = db.data.classrooms.find(
+      (c) => c.id === parseInt(classroomId)
+    );
+
+    if (!classroom) {
+      return res.status(404).json({ message: "해당 교실이 없습니다." });
+    }
+
+    // 기존과 같은 교시가 존재한다면 기존 교시부터 뒤에 위치한 교시들은 sessionId + 1 한다.
+    classroom.sessions.forEach((session) => {
+      if (session.sessionId >= sessionId) {
+        session.sessionId += 1;
+      }
+    });
+
+    // 새 교시 추가
+    classroom.sessions.push({
+      sessionId,
+      timeOfDay,
+      startTime,
+      endTime,
+    });
+
+    await db.write();
+    res.status(201).json({ message: "교시 추가 성공" });
+  } catch (error) {
+    console.error("교시 추가 실패: ", error);
+    res.status(500).json({ message: "교시 추가 실패" });
+  }
+});
+
+// 교시 삭제
 app.delete(
   "/api/classrooms/:classroomId/sessions/:sessionId",
   async (req, res) => {

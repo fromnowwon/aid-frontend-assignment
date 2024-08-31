@@ -30,6 +30,42 @@ export const fetchMealTimes = async () => {
   }
 };
 
+// 교시 추가
+export const addSession = async (
+  classroomId: number,
+  timeOfDay: string,
+  startTime: string,
+  endTime: string,
+  sessionId: number
+) => {
+  try {
+    const response = await fetch(
+      `${API_BASE_URL}/classrooms/${classroomId}/sessions`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          timeOfDay,
+          startTime,
+          endTime,
+          sessionId,
+        }),
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error("교시 추가 실패");
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error("API 요청 오류:", error);
+    throw error;
+  }
+};
+
 // 교시 삭제
 export const removeSession = async (classroomId: number, sessionId: number) => {
   try {
@@ -44,7 +80,7 @@ export const removeSession = async (classroomId: number, sessionId: number) => {
     );
 
     if (!response.ok) {
-      throw new Error("Failed to delete session");
+      throw new Error("교시 삭제 실패");
     }
 
     return await response.json();

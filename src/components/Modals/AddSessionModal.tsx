@@ -164,6 +164,8 @@ export default function AddSessionModal({
       }
 
       onClose();
+      setStartTime(null);
+      setEndTime(null);
     } catch (error) {
       console.error("교시 추가 실패", error);
     }
@@ -174,16 +176,12 @@ export default function AddSessionModal({
   };
 
   const handleStartTimeChange = (date: Date | null) => {
-    if (!date) return;
-
     setStartTime(date);
     const validationResult = validateTimes(date, endTime);
     setValidationError(validationResult);
   };
 
   const handleEndTimeChange = (date: Date | null) => {
-    if (!date) return;
-
     setEndTime(date);
     const validationResult = validateTimes(startTime, date);
     setValidationError(validationResult);
@@ -206,7 +204,7 @@ export default function AddSessionModal({
           onClick: handleSave,
           variant: "default",
           type: "submit",
-          disabled: !!validationError,
+          disabled: !!validationError || !startTime || !endTime,
         },
       ]}
     >

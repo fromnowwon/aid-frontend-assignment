@@ -102,22 +102,20 @@ export default function EditMealTimeModal({
       }
 
       onClose();
+      setStartTime(null);
+      setEndTime(null);
     } catch (error) {
       console.error("식사 시간 수정 오류:", error);
     }
   };
 
   const handleStartTimeChange = (date: Date | null) => {
-    if (!date) return;
-
     setStartTime(date);
     const validationResult = validateTimes(date, endTime);
     setValidationError(validationResult);
   };
 
   const handleEndTimeChange = (date: Date | null) => {
-    if (!date) return;
-
     setEndTime(date);
     const validationResult = validateTimes(startTime, date);
     setValidationError(validationResult);
@@ -128,7 +126,7 @@ export default function EditMealTimeModal({
       isOpen={isOpen}
       onClose={onClose}
       title={`${mealTypeTitle} 시간 수정`}
-      description={`${mealTypeTitle} 시간을 수정할 수 있습니다.\n수업과 중복될 수 없습니다.`}
+      description={`${mealTypeTitle} 시간을 수정할 수 있습니다.`}
       footerButtons={[
         {
           label: "취소",
@@ -139,12 +137,18 @@ export default function EditMealTimeModal({
           label: "수정",
           onClick: handleSave,
           variant: "destructive",
-          disabled: !!validationError,
+          disabled: !!validationError || !startTime || !endTime,
         },
       ]}
     >
       {isReady && (
         <div>
+          <div className="mb-3 border p-2">
+            <p className="text-sm font-semibold">※ 선택 가능 시간 안내</p>
+            <p className="text-sm">- 점심: 11:00-14:00</p>
+            <p className="text-sm">- 저녁: 17:00-20:00</p>
+            <p className="text-sm">- 지정되어 있는 수업 시간도 제외됩니다.</p>
+          </div>
           <div className="flex items-center space-x-4">
             <div>
               <label className="hidden">시작 시간</label>

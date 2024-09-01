@@ -31,10 +31,11 @@ export default function EditSessionModal({
 
   const handleSave = async () => {
     try {
-      const formattedStartTime =
-        typeof startTime === "string" ? startTime : String(startTime);
-      const formattedEndTime =
-        typeof endTime === "string" ? endTime : String(endTime);
+      if (!startTime || !endTime) return;
+
+      // 시간 포맷을 "HH:mm" 형식으로 변경
+      const formattedStartTime = startTime.toTimeString().slice(0, 5);
+      const formattedEndTime = endTime.toTimeString().slice(0, 5);
 
       if (formattedStartTime && formattedEndTime) {
         await updateSessionTime(
@@ -45,22 +46,20 @@ export default function EditSessionModal({
         );
       }
       onClose();
+      setStartTime(null);
+      setEndTime(null);
     } catch (error) {
       console.error("교시 수정 오류:", error);
     }
   };
 
   const handleStartTimeChange = (date: Date | null) => {
-    if (!date) return;
-
     setStartTime(date);
     const validationResult = validateTimes(date, endTime);
     setValidationError(validationResult);
   };
 
   const handleEndTimeChange = (date: Date | null) => {
-    if (!date) return;
-
     setEndTime(date);
     const validationResult = validateTimes(startTime, date);
     setValidationError(validationResult);
@@ -91,7 +90,7 @@ export default function EditSessionModal({
           label: "수정",
           onClick: handleSave,
           variant: "destructive",
-          disabled: !!validationError,
+          disabled: !!validationError || !startTime || !endTime,
         },
       ]}
     >

@@ -147,28 +147,6 @@ app.patch(
         return res.status(404).json({ message: "해당 교시가 없습니다." });
       }
 
-      // 이전 교시 종료 시간 및 다음 교시 시작 시간 가져오기
-      const prevSessionEndTime =
-        sessionIndex > 0
-          ? classroom.sessions[sessionIndex - 1].endTime
-          : TIME_RANGES[classroom.sessions[sessionIndex].timeOfDay].start;
-
-      const nextSessionStartTime =
-        sessionIndex < classroom.sessions.length - 1
-          ? classroom.sessions[sessionIndex + 1].startTime
-          : TIME_RANGES[classroom.sessions[sessionIndex].timeOfDay].end;
-
-      // 새 교시의 시간이 유효한지 확인
-      if (
-        startTime < prevSessionEndTime ||
-        endTime > nextSessionStartTime ||
-        startTime >= endTime
-      ) {
-        return res
-          .status(400)
-          .json({ message: "유효하지 않은 시간 범위입니다." });
-      }
-
       // 교시 수정
       classroom.sessions[sessionIndex] = {
         ...classroom.sessions[sessionIndex],

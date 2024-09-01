@@ -52,7 +52,8 @@ export default function ScheduleSession({
     null
   );
 
-  const { removeSession } = useClassroomStore((state) => state);
+  const { removeSession, getClassrooms, setActiveClassroomId } =
+    useClassroomStore((state) => state);
 
   const openAddSessionModal = () => setAddSessionModalOpen(true);
   const closeAddSessionModal = () => setAddSessionModalOpen(false);
@@ -85,6 +86,8 @@ export default function ScheduleSession({
   const handleDeleteSession = async () => {
     if (sessionIdToDelete !== null) {
       await removeSession(classroomId, sessionIdToDelete);
+      await getClassrooms();
+      setActiveClassroomId(classroomId);
       closeDeleteSessionModal();
     }
   };

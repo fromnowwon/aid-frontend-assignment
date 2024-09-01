@@ -5,7 +5,7 @@ import SchedulePanel from "./SchedulePanel";
 import BatchButton from "./BatchButton";
 
 export default function ClassroomTabs() {
-  const { classrooms, getClassrooms, setActiveClassroomId } =
+  const { classrooms, getClassrooms, setActiveClassroomId, activeClassroomId } =
     useClassroomStore();
   const [activeTab, setActiveTab] = useState<number | null>(
     classrooms.length > 0 ? classrooms[0].id : null
@@ -28,8 +28,13 @@ export default function ClassroomTabs() {
   useEffect(() => {
     if (classrooms.length > 0) {
       // 초기 활성화 탭 설정
-      setActiveTab(classrooms[0].id);
-      setActiveClassroomId(classrooms[0].id);
+      if (!activeClassroomId) {
+        setActiveTab(classrooms[0].id);
+        setActiveClassroomId(classrooms[0].id);
+      } else {
+        setActiveTab(activeClassroomId);
+        setActiveClassroomId(activeClassroomId);
+      }
     }
   }, [classrooms, setActiveClassroomId]);
 

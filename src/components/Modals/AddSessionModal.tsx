@@ -45,7 +45,9 @@ export default function AddSessionModal({
       ? "오후"
       : "저녁";
 
-  const { getClassrooms, addSession } = useClassroomStore((state) => state);
+  const { getClassrooms, addSession, setActiveClassroomId } = useClassroomStore(
+    (state) => state
+  );
   const mealTimes = useMealTimeStore((state) => state.mealTimes);
   const [startTime, setStartTime] = useState<Date | null>(null);
   const [endTime, setEndTime] = useState<Date | null>(null);
@@ -158,6 +160,7 @@ export default function AddSessionModal({
 
         // 교실 정보를 다시 가져와 상태를 업데이트
         await getClassrooms();
+        setActiveClassroomId(classroomId);
       }
 
       onClose();
